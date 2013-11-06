@@ -16,6 +16,8 @@ Using array indices is error-prone, has no auto-completion, and makes your code 
 minivec provides wrappers for the array indices, intended to be used in not-so-performance critical sections for better readability. 
 
 ```javascript
+var Vector2 = require('minivec').Vector2;
+
 var a = new Vector2(10, 25);
 var b = new Vector2(25, 50);
 
