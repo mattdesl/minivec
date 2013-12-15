@@ -1,6 +1,6 @@
 ## Vector utils
 
-This is a small vector library, built on the optimized codebase of [gl-matrix](https://github.com/toji/gl-matrix) but using objects and JavaScript paradigms instead of typed arrays. It also includes a Pool utility, for reducing allocations in your real-time applications.
+This is a small vector library, built on the optimized codebase of [gl-matrix](https://github.com/toji/gl-matrix) but using objects and JavaScript paradigms instead of typed arrays. It also includes a Pool utility, for reducing allocations in your real-time applications. 
 
 ## Why another library?
 
@@ -67,3 +67,11 @@ If you find yourself creating a lot of objects, you should use a Pool to reduce 
 
 We also include a Pool class for working with reusable objects within GC limits. You specify a max number of objects for a Pool, and then use `obtain()` and `free()` to manage your objects. After you `free` an object (put it back in the pool), its `reset()` method will be called.
 
+
+## TODO:
+
+- Move docs over from gl-matrix
+- Add licensing information since most of the code belongs to gl-matrix (???)
+- Add docs for Pool use
+- Add matrix classes
+- Test Quaternion + Matrix classes and compare with gl-matrix results
