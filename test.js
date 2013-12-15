@@ -136,3 +136,4 @@ testOp("Quaternion", Quaternion, "lerp", [50, 10, 10, 25], [15, 50, 75, 12], [50
 testOp("Quaternion", Quaternion, "mul", [-50, 10, 25, 0], [23, -21, 75.2, 2.5], [1152, 4360, 882.5, -520], 4);
 
 //TODO: matrix & quat tests
+//TODO: compare against gl-matrix
