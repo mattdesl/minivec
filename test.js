@@ -1,9 +1,3 @@
-var vec2 = require('gl-matrix').vec2;
-var vec3 = require('gl-matrix').vec3;
-var vec4 = require('gl-matrix').vec4;
-var quat = require('gl-matrix').quat;
-var mat4 = require('gl-matrix').mat4;
-
 var Vector2 = require('./lib/Vector2');
 var Vector3 = require('./lib/Vector3');
 var Vector4 = require('./lib/Vector4');
@@ -12,17 +6,10 @@ var Matrix3 = require('./lib/Matrix3');
 
 var assert = require('assert');
 
-var tvec2 = vec2.create();
-var tvec3 = vec3.create();
-var tvec4 = vec4.create();
-var tquat = quat.create();
-var tmat4 = mat4.create();
-
 var ovec2 = new Vector2();
 var ovec3 = new Vector3();
 var ovec4 = new Vector4();
 var oquat = new Quaternion();
-// var omat4 = new Matrix3();
 
 var iterations = 10000;
 var EPSILON = 0.000001;
@@ -31,8 +18,8 @@ function equalish(a, b) {
     return Math.abs(a - b) < EPSILON;
 }
 
-
 ////// 
+/// There are lots of improvements we can do here for tests.
 
 console.log("----- Test Suite -----");
 
@@ -134,6 +121,33 @@ testOp("Quaternion", Quaternion, "normalize", [-5, 0, 10, 0], [], [-0.4472135954
 testOp("Quaternion", Quaternion, "normalize", [0, 0, 0, 0], [], [0, 0, 0, 0], 4, 0);
 testOp("Quaternion", Quaternion, "lerp", [50, 10, 10, 25], [15, 50, 75, 12], [50, 10, 10, 25], 4);
 testOp("Quaternion", Quaternion, "mul", [-50, 10, 25, 0], [23, -21, 75.2, 2.5], [1152, 4360, 882.5, -520], 4);
+
+function testQuatRotationTo(a, b, expected, msg, tvec, rvec) {
+    oquat.idt();
+    var ret = oquat.rotationTo( new Vector3(a[0], a[1], a[2]), 
+                                new Vector3(b[0], b[1], b[2]) );
+    assert.strictEqual(ret, oquat, "Quaternion.rotationTo() does not return this");
+    if (!tvec) {
+        assert.ok( equalish(oquat.x, expected[0]) 
+                && equalish(oquat.y, expected[1])
+                && equalish(oquat.z, expected[2])
+                && equalish(oquat.w, expected[3]), "Quaternion.rotationTo() "+msg);    
+    } else {
+        ovec3.set(tvec[0], tvec[1], tvec[2]);
+        ovec3.transformQuat(oquat);
+
+        assert.ok( equalish(ovec3.x, rvec[0]) 
+                && equalish(ovec3.y, rvec[1])
+                && equalish(ovec3.z, rvec[2]), "Quaternion.rotationTo() "+msg);    
+    }
+        
+}
+
+testQuatRotationTo([0, 1, 0], [1, 0, 0], [0, 0, -0.707106, 0.707106], "at right angle");
+testQuatRotationTo([0, 1, 0], [0, 1, 0], null, "when vectors are parallel", [0, 1, 0], [0, 1, 0]);
+testQuatRotationTo([1, 0, 0], [-1, 0, 0], null, "when vectors are opposed X", [1, 0, 0], [-1, 0, 0]);
+testQuatRotationTo([0, 1, 0], [0, -1, 0], null, "when vectors are opposed Y", [0, 1, 0], [0, -1, 0]);
+testQuatRotationTo([0, 0, 1], [0, 0, -1], null, "when vectors are opposed Z", [0, 0, 1], [0, 0, -1]);
 
 //TODO: matrix & quat tests
 //TODO: compare against gl-matrix
