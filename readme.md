@@ -1,4 +1,4 @@
-## Vector utils
+## minivec (working title)
 
 This is a small vector library, built on the optimized codebase of [gl-matrix](https://github.com/toji/gl-matrix) but using objects and JavaScript paradigms instead of typed arrays. It also includes a Pool utility, for reducing allocations in your real-time applications. 
 
@@ -59,7 +59,7 @@ Just like in gl-matrix, the API tries to encourage re-using vectors to avoid all
 myVec.add({ x:0, y: 10, z: 50 });
 ```
 
-These are usually a lot faster to allocate than a Vector class, or a Float32Array (in the case of gl-matrix).
+These are usually a lot faster to allocate than a Vector class, or a Float32Array (in the case of gl-matrix). 
 
 If you find yourself creating a lot of objects, you should use a Pool to reduce allocations. See below.
 
@@ -70,6 +70,7 @@ We also include a Pool class for working with reusable objects within GC limits.
 
 ## TODO:
 
+- come up with a proper name
 - Move docs over from gl-matrix
 - Add licensing information since most of the code belongs to gl-matrix (???)
 - Add docs for Pool use
